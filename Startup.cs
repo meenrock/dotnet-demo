@@ -70,8 +70,6 @@ namespace dotnet_demo
 
             app.UseAuthorization();
 
-            app.UseMiddleware<JwtMiddleware>();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
