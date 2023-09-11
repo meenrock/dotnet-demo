@@ -1,6 +1,7 @@
 ﻿using CorePush.Apple;
 using CorePush.Google;
 using dotnet_demo.Helpers;
+using dotnet_demo.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -41,6 +42,7 @@ namespace dotnet_demo
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             // configure DI for application services
+            services.AddTransient<INotificationService, NotificationService>();
             services.AddHttpClient<FcmSender>();
             services.AddHttpClient<ApnSender>();
         }
