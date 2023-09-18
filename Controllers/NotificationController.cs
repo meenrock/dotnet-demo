@@ -26,16 +26,40 @@ namespace dotnet_demo.Controllers
         [HttpPost]
         public async Task<IActionResult> SendNotification(NotificationRequest request)
         {
-            foreach (var username in request.username)
+            try
             {
-                var subscription = _baseRepository.GetList<SubscriptionModel>(StoredProcedure.FETCH_USER_SUBSCRIPTION, new { username }, CommandType.StoredProcedure);
-                foreach (var sub in subscription)
-                {
-                    await _notificationService.SendNotification(new NotificationModel { DeviceId = sub.Token, IsAndroiodDevice = true, Title = request.title, Body = request.body });
-                }
-            }
+                var tasks = new List<Task>();
 
-            return Ok();
+                foreach (var username in request.username)
+                {
+                    var subscription = _baseRepository.GetList<SubscriptionModel>(StoredProcedure.FETCH_USER_SUBSCRIPTION, new { username }, CommandType.StoredProcedure);
+                    
+                    foreach (var sub in subscription)
+                    {
+                        tasks.Add(_notificationService.SendNotification(
+                                new NotificationModel
+                                {
+                                    DeviceId = sub.Token,
+                                    IsAndroiodDevice = true,
+                                    Title = request.title,
+                                    Body = request.body,
+                                }
+                            ));
+                        //await _notificationService.SendNotification(new NotificationModel { DeviceId = sub.Token, IsAndroiodDevice = true, Title = request.title, Body = request.body });
+                    }
+                }
+
+                await Task.WhenAll(tasks);
+
+                return Ok();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         [Route("register")]
