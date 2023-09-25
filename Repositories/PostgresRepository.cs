@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using dotnet_demo.Models.User;
 
 namespace dotnet_demo.Repositories
 {
-    public class PostgresRepository : Controller
+    public class PostgresDBContext : DbContext
     {
-        public IActionResult Index()
+        public PostgresDBContext(DbContextOptions<PostgresDBContext> options) : base(options)
         {
-            return View();
+
         }
+
+        public DbSet<User> Users { get; set; }
     }
 }
