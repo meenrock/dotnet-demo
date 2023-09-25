@@ -1,12 +1,14 @@
 ﻿using CorePush.Apple;
 using CorePush.Google;
 using dotnet_demo.Helpers;
+using dotnet_demo.Repositories;
 using dotnet_demo.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -45,6 +47,11 @@ namespace dotnet_demo
             services.AddTransient<INotificationService, NotificationService>();
             services.AddHttpClient<FcmSender>();
             services.AddHttpClient<ApnSender>();
+
+            // database injection
+            services.AddDbContext<PostgresDBContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
+            );
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

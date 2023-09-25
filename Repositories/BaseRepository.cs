@@ -57,6 +57,15 @@ namespace dotnet_demo.Repositories
             }
         }
 
+        public T Get<T>(string sQuery, object request = null, CommandType commandType = CommandType.Text) where T : new()
+        {
+            using (IDbConnection dbConnection = Connection)
+            {
+                dbConnection.Open();
+                return dbConnection.Query<T>(sQuery, request, commandType: commandType).FirstOrDefault();
+            }
+        }
+
         public bool Insert(Object request, string sQuery)
         {
             using (IDbConnection dbConnection = Connection)
