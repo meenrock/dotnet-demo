@@ -49,9 +49,9 @@ namespace dotnet_demo
             services.AddHttpClient<ApnSender>();
 
             // database injection
-            services.AddDbContext<PostgresDBContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
-            );
+            // services.AddDbContext<PostgresDBContext>(options =>
+            //    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
+            // );
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
