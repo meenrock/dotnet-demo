@@ -19,7 +19,7 @@ namespace dotnet_demo.Tests
         {
             //arrange - mock the data and input
             var httpClientMock = new Mock<HttpClient>();
-            var appSettings = new AppSettings { serverKey = "YourServerKey", senderId = "YourSenderId" };
+            var appSettings = new AppSettings { serverKey = "YourServerKey", senderId = "YourSenderId"  };
             var notificationModel = new NotificationModel
             {
                 IsAndroiodDevice = true,
@@ -27,7 +27,7 @@ namespace dotnet_demo.Tests
                 Body = "Test Body",
                 DeviceId = "TestDeviceId"
             };
-            var notificationService = new NotificationService(httpClientMock.Object, appSettings);
+            var notificationService = new NotificationService(appSettings,);
 
             httpClientMock.Setup(client => client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", It.IsAny<string>()));
             httpClientMock.Setup(client => client.DefaultRequestHeaders.Accept.Add(It.IsAny<MediaTypeWithQualityHeaderValue>()));

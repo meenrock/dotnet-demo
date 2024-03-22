@@ -33,6 +33,7 @@ namespace dotnet_demo
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication();
             services.AddCors();
             services.AddControllers();
             services.AddSwaggerGen(c =>
